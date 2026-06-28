@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SANAD - اختيار الخدمة</title>
+    <link rel="stylesheet" href="typeStyle.css">
+</head>
+<body>
+    <header class="topbar">
+        <button class="back" type="button" id="backBtn">رجوع</button>
+        <img src="SANADlogo.png" alt="Sanad Logo">
+    </header>
+
+    <main class="page">
+        <h1 id="title">كيف نقدر نساعدك؟</h1>
+        <div class="cards">
+            <button class="choice-card" type="button" id="mapBtn">
+                <span class="choice-icon">⌖</span>
+                <span id="mapText">الخريطة</span>
+            </button>
+
+            <button class="choice-card" type="button" id="reportBtn">
+                <span class="choice-icon">!</span>
+                <span id="reportText">تقديم بلاغ</span>
+            </button>
+        </div>
+    </main>
+
+    <script>
+        const texts = {
+            ar: {
+                dir: "rtl",
+                title: "كيف نقدر نساعدك؟",
+                map: "الخريطة",
+                report: "تقديم بلاغ",
+                back: "رجوع",
+                reportPage: "/index-ar.html"
+            },
+            en: {
+                dir: "ltr",
+                title: "How can we help you?",
+                map: "Map",
+                report: "Submit Report",
+                back: "Back",
+                reportPage: "/index-en.html"
+            },
+            ur: {
+                dir: "rtl",
+                title: "ہم آپ کی کیسے مدد کریں؟",
+                map: "نقشہ",
+                report: "رپورٹ بھیجیں",
+                back: "واپس",
+                reportPage: "/index-en.html"
+            }
+        };
+
+        const lang = localStorage.getItem("preferred_language") || localStorage.getItem("selected_language") || "ar";
+        const current = texts[lang] || texts.ar;
+
+        document.documentElement.lang = lang;
+        document.documentElement.dir = current.dir;
+        document.getElementById("title").textContent = current.title;
+        document.getElementById("mapText").textContent = current.map;
+        document.getElementById("reportText").textContent = current.report;
+        document.getElementById("backBtn").textContent = current.back;
+
+        document.getElementById("reportBtn").addEventListener("click", () => {
+            window.location.href = current.reportPage;
+        });
+
+        document.getElementById("mapBtn").addEventListener("click", () => {
+            window.location.href = "/map.html";
+        });
+
+        document.getElementById("backBtn").addEventListener("click", () => {
+            window.location.href = "/Welcome.html";
+        });
+    </script>
+</body>
+</html>

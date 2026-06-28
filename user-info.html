@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title>SANAD – User Info</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="user-info.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="top">
+        <div class="back" onclick="window.location.href='Welcome.html'">&#10094;</div>
+        <div class="lang" id="langSwitcher">English</div>
+        <img src="SANADlogo.png" class="logo">
+    </div>
+
+    <form id="userForm">
+        <div class="field" id="nameField">
+            <label id="nameLabel">Full name</label>
+            <input type="text" id="nameInput" placeholder="Enter full name" autocomplete="name">
+            <small id="nameError" class="error-msg"></small>
+        </div>
+
+        <div class="field" id="phoneField">
+            <label id="phoneLabel">Phone number</label>
+            <div class="phone">
+                <select id="countryCode" class="code-select"></select>
+                <input type="tel" id="phoneInput" autocomplete="tel" inputmode="numeric">
+            </div>
+            <small id="phoneError" class="error-msg"></small>
+        </div>
+
+        <div class="field">
+            <label id="prefLangLabel">Preferred language</label>
+            <select id="prefLangSelect">
+                <option value="en">English</option>
+                <option value="ar">العربية</option>
+                <option value="ur">اردو</option>
+            </select>
+        </div>
+
+        <button class="submit" id="submitBtn" type="submit" disabled>Submit</button>
+    </form>
+</div>
+
+<script src="user-info.js"></script>
+
+</body>
+</html>

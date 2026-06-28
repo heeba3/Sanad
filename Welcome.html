@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>SANAD</title>
+    <link rel="icon" href="SANADlogo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="welcomeStyle.css">
+</head>
+<body>
+    <img src="SANADlogo.png" class="logo">
+    <div class="page">
+        <div class="texts">
+            <div class="welcome">مرحبًا بك!</div>
+            <div class="sub-text">هل تحتاج إلى مساعدة؟</div>
+            <div class="language-selector" aria-label="Language selection">
+                <button class="language-btn active" type="button" data-lang="ar">العربية</button>
+                <button class="language-btn" type="button" data-lang="en">English</button>
+                <button class="language-btn" type="button" data-lang="ur">اردو</button>
+            </div>
+            <button class="btn" onclick="window.location.href='user-info.html'">لا أملك بطاقة نسك</button>
+        </div>
+        <div class="scan-area" aria-label="Nusuk card scan area">
+            <img src="card.png" class="card-img" alt="Nusuk card">
+            <div class="scan-title">مرر بطاقة نسك على القارئ</div>
+            <div class="scan-subtitle">Scan your Nusuk card</div>
+        </div>
+        <input
+            id="scanner"
+            type="text"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+            spellcheck="false"
+            inputmode="none"
+            readonly
+            aria-hidden="true"
+            autofocus
+            style="opacity:0; position:fixed; top:0; left:0; width:1px; height:1px; pointer-events:none;"
+        >
+    </div>
+    <script src="script.js?v=20260511-3"></script>
+    <script src="kiosk-listener.js?v=20260511-3"></script>
+</body>
+</html>

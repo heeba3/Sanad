@@ -1,0 +1,186 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #ffffff;
+    overflow-x: hidden;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.page {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 95%;
+    max-width: 100%;
+}
+
+.texts {
+    text-align: left;
+    max-width: 60%;
+    transform: translateX(-50px);
+    margin-top: 150px;
+    position: relative;
+}
+
+.texts.english {
+    direction: ltr;
+    text-align: left;
+}
+
+.texts.urdu {
+    direction: rtl;
+    text-align: right;
+}
+
+.welcome {
+    font-size: 10vw;
+    color: #0b5733;
+    font-weight: 700;
+}
+
+.sub-text {
+    font-size: 5vw;
+    color: #c5b47e;
+    margin-top: 1vh;
+    font-weight: 600;
+}
+
+.language-selector {
+    display: flex;
+    gap: 12px;
+    margin-top: 42px;
+    margin-left: 50px;
+    flex-wrap: wrap;
+}
+
+.language-btn {
+    border: 1px solid rgba(11, 87, 51, 0.35);
+    background: #fff;
+    color: #0b5733;
+    border-radius: 999px;
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.language-btn.active {
+    background: #0b5733;
+    color: #fff;
+}
+
+.btn {
+    margin-top: 28px;
+    margin-left: 50px;
+    padding: 2vh 6vw;
+    font-size: 2.5vw;
+    border-radius: 40px;
+    background-color: #f7f2df;
+    border: 1px solid rgba(0,0,0,0.2);
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    width: auto;
+    min-width: 250px;
+}
+
+.scan-area {
+    text-align: center;
+}
+
+.card-img {
+    width: 37vw;
+    max-width: 600px;
+    height: auto;
+    display: block;
+}
+
+.scan-title {
+    margin-top: 18px;
+    color: #0b5733;
+    font-size: 2.2vw;
+    font-weight: 700;
+}
+
+.scan-subtitle {
+    margin-top: 6px;
+    color: #8a7c4a;
+    font-size: 1.5vw;
+    font-weight: 600;
+}
+
+.logo {
+    position: absolute;
+    top: 2vh;
+    right: 2vw;
+    width: 30vw;
+    max-width: 300px;
+}
+
+@media (max-width: 768px) {
+    .page {
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+
+    .texts {
+        text-align: center;
+        max-width: 90%;
+        transform: translateX(0);
+        margin-top: 50px;
+    }
+
+    .welcome {
+        font-size: 12vw;
+    }
+
+    .sub-text {
+        font-size: 6vw;
+    }
+
+    .btn {
+        font-size: 4vw;
+        padding: 2vh 6vw;
+        margin-left: 0;
+        margin-top: 24px;
+    }
+
+    .language-selector {
+        justify-content: center;
+        margin-left: 0;
+        margin-top: 28px;
+    }
+
+    .language-btn {
+        font-size: 4vw;
+        padding: 8px 14px;
+    }
+
+    .scan-area {
+        margin-top: 30px;
+    }
+
+    .card-img {
+        width: 70vw;
+    }
+
+    .scan-title {
+        font-size: 5vw;
+    }
+
+    .scan-subtitle {
+        font-size: 3.8vw;
+    }
+
+    .logo {
+        width: 20vw;
+    }
+}

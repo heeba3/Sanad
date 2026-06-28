@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SANAD - Report Submission</title>
+  <style>
+    * { box-sizing: border-box; font-family: "Tahoma", "Arial", sans-serif; }
+    body { margin: 0; background: #f3f3f3; color: #111; overflow-x: hidden; }
+    .page { min-height: 100vh; padding: 18px 28px 28px; position: relative; }
+    .logo { position: absolute; top: 16px; right: 24px; z-index: 10; }
+    .logo img { width: 190px; height: auto; display: block; object-fit: contain; }
+    .content { max-width: 1050px; margin: 72px auto 0; text-align: center; }
+    
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    
+    .back-btn {
+      background: #f4a261;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 10px 20px;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+    
+    .back-btn:hover {
+      background: #e8893d;
+      transform: translateY(-2px);
+    }
+    
+    h1 { margin: 0; font-size: 56px; color: #005c2c; font-weight: 800; line-height: 1.15; }
+    .subtitle { font-size: 22px; margin-top: 16px; margin-bottom: 22px; color: #111; }
+    .record-box {
+      background: #d9e9e2; border: 2.5px solid #0b5e33; border-radius: 18px;
+      min-height: 240px; display: flex; align-items: center; justify-content: center;
+      flex-direction: column; padding: 22px 18px; margin-bottom: 18px;
+    }
+    .mic-circle {
+      width: 145px; height: 145px; background: #005c2c; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; margin-bottom: -10px;
+    }
+    .mic-circle span { font-size: 64px; color: white; }
+    .record-btn {
+      background: #005c2c; color: white; border: none; border-radius: 18px;
+      padding: 14px 54px; font-size: 22px; font-weight: 700; cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); transition: 0.2s ease;
+    }
+    .record-btn:hover { transform: translateY(-2px); }
+    .record-hint { margin-top: 12px; font-size: 18px; color: #222; }
+    .status { margin-top: 8px; min-height: 24px; font-size: 18px; color: #005c2c; font-weight: 600; }
+    .text-box {
+      width: 100%; height: 115px; border: 1.8px solid #8d9398; border-radius: 12px;
+      background: #fff; font-size: 22px; padding: 18px 20px; resize: none; outline: none; color: #222;
+    }
+    .text-box::placeholder { color: #8a8f94; }
+    .report-type-box {
+      width: 100%; min-height: 68px; margin-top: 14px; background: #fff; border: 1.8px solid #8d9398;
+      border-radius: 12px; display: none; align-items: center; justify-content: space-between;
+      padding: 0 20px; font-size: 24px; font-weight: 700;
+    }
+    .report-type-box.show { display: flex; }
+    .report-type-label { color: #111; }
+    .report-dot { width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0; }
+    .report-dot.security { background: #ff1616; }
+    .report-dot.medical { background: #ff4d4d; }
+    .report-dot.lost_items { background: #1d75d8; }
+    .send-btn {
+      margin-top: 18px;
+      background: #005c2c;
+      color: white;
+      border: none;
+      border-radius: 18px;
+      padding: 15px 58px;
+      font-size: 24px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+      transition: 0.2s ease;
+      display: inline-block;
+      width: 60%;
+    }
+    .send-btn:hover { transform: translateY(-2px); }
+    .send-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .popup-overlay {
+      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.22); display: none;
+      align-items: center; justify-content: center; z-index: 999;
+    }
+    .popup-overlay.show { display: flex; }
+    .popup-card {
+      width: 520px; max-width: 90%; background: #fff; border: 1.5px solid #cfd4d8;
+      border-radius: 16px; padding: 34px 28px 28px; text-align: center;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.14);
+    }
+    .popup-check {
+      width: 110px; height: 110px; border-radius: 50%; border: 7px solid #17c964;
+      color: #17c964; display: flex; align-items: center; justify-content: center;
+      font-size: 64px; font-weight: 800; margin: 0 auto 22px; line-height: 1;
+    }
+    .popup-title { font-size: 42px; font-weight: 800; color: #005c2c; margin-bottom: 10px; }
+    .popup-subtitle { font-size: 24px; color: #222; margin-bottom: 24px; }
+    .popup-btn {
+      background: #005c2c; color: white; border: none; border-radius: 14px;
+      padding: 14px 42px; font-size: 24px; font-weight: 700; cursor: pointer;
+    }
+    @media (max-width: 1200px) {
+      .logo img { width: 165px; }
+      .content { margin-top: 72px; }
+      h1 { font-size: 46px; }
+      .subtitle { font-size: 20px; margin-bottom: 18px; }
+      .record-box { min-height: 220px; }
+      .record-btn { font-size: 20px; padding: 12px 46px; }
+      .text-box, .report-type-box { font-size: 20px; }
+      .send-btn { font-size: 22px; padding: 12px 40px; }
+      .back-btn { font-size: 16px; padding: 8px 16px; }
+    }
+    @media (max-height: 900px) {
+      .content { margin-top: 64px; }
+      h1 { font-size: 44px; }
+      .subtitle { font-size: 19px; }
+      .record-box { min-height: 210px; padding: 18px 16px; }
+      .mic-circle { width: 130px; height: 130px; }
+      .mic-circle span { font-size: 56px; }
+      .record-btn { font-size: 20px; padding: 12px 44px; }
+      .text-box { height: 100px; font-size: 20px; }
+      .send-btn { margin-top: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="logo">
+      <img src="SANADSCREENlogo.png" alt="SANAD Logo">
+    </div>
+
+    <div class="content">
+      <div class="header-container">
+        <button class="back-btn" id="backBtn">↩ Back</button>
+        <h1>Tell us what happened</h1>
+        <div style="width: 80px;"></div>
+      </div>
+      <div class="subtitle">You can record or type your report in your language</div>
+
+      <div class="record-box">
+        <div class="mic-circle"><span>🎤</span></div>
+        <button class="record-btn" id="recordBtn">Start Speaking</button>
+        <div class="record-hint">Tap to record</div>
+        <div class="status" id="statusText"></div>
+      </div>
+
+      <textarea id="reportText" class="text-box" placeholder="Write the report description here"></textarea>
+
+      <div id="reportTypeBox" class="report-type-box">
+        <div class="report-type-label" id="reportTypeText">Report Type: Security</div>
+        <div class="report-dot security" id="reportDot"></div>
+      </div>
+
+      <button id="sendBtn" class="send-btn">Send Report</button>
+    </div>
+  </div>
+
+  <div id="successPopup" class="popup-overlay">
+    <div class="popup-card">
+      <div class="popup-check">✓</div>
+      <div class="popup-title">Your report was sent successfully!</div>
+      <div class="popup-subtitle">Do not worry, SANAD heroes are here to help you</div>
+      <button id="closePopupBtn" class="popup-btn">OK</button>
+    </div>
+  </div>
+
+<script>
+  const recordBtn = document.getElementById("recordBtn");
+  const statusText = document.getElementById("statusText");
+  const reportText = document.getElementById("reportText");
+  const reportTypeBox = document.getElementById("reportTypeBox");
+  const reportTypeText = document.getElementById("reportTypeText");
+  const reportDot = document.getElementById("reportDot");
+  const sendBtn = document.getElementById("sendBtn");
+  const backBtn = document.getElementById("backBtn");
+  const successPopup = document.getElementById("successPopup");
+  const closePopupBtn = document.getElementById("closePopupBtn");
+
+  let mediaRecorder = null;
+  let audioChunks = [];
+  let stream = null;
+  let isRecording = false;
+  let currentScreenNumber = null;
+  let currentHajjId = null;
+  let isSending = false;
+
+  backBtn.addEventListener("click", () => {
+    const selectedLanguage = localStorage.getItem("selected_language");
+    const kioskNumber = localStorage.getItem("kiosk_number");
+    localStorage.clear();
+    if (selectedLanguage) {
+      localStorage.setItem("selected_language", selectedLanguage);
+    }
+    if (kioskNumber) {
+      localStorage.setItem("kiosk_number", kioskNumber);
+    }
+    window.location.href = "/Welcome.html";
+  });
+
+  async function getNextScreenNumber() {
+    const configuredKiosk = localStorage.getItem("kiosk_number");
+    if (/^(?:[1-9]|1[0-5])$/.test(configuredKiosk || "")) {
+      currentScreenNumber = Number(configuredKiosk);
+      console.log(`📍 Using fixed kiosk number: ${currentScreenNumber}`);
+      return currentScreenNumber;
+    }
+
+    try {
+      const res = await fetch("/api/screen/next");
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      const data = await res.json();
+      if (data && typeof data.screen_number === 'number') {
+        currentScreenNumber = data.screen_number;
+        console.log(`📱 Using screen number: ${currentScreenNumber}`);
+        return currentScreenNumber;
+      } else {
+        throw new Error("Invalid screen number response");
+      }
+    } catch (err) {
+      console.error("❌ Failed to get screen number:", err);
+      currentScreenNumber = 1;
+      return currentScreenNumber;
+    }
+  }
+
+  function updateUIFromPrediction(data) {
+    const englishLabelMap = {
+      medical: "Medical",
+      lost_items: "Lost Items",
+      security: "Security"
+    };
+
+    reportTypeText.textContent = `Report Type: ${englishLabelMap[data.predicted_label_en] || "Unknown"}`;
+
+    if (data.predicted_label_en === "medical") {
+      reportDot.className = "report-dot medical";
+    } else if (data.predicted_label_en === "lost_items") {
+      reportDot.className = "report-dot lost_items";
+    } else {
+      reportDot.className = "report-dot security";
+    }
+
+    reportTypeBox.classList.add("show");
+  }
+
+  async function processAndSendReport() {
+    const text = reportText.value;
+    
+    console.log("📝 Report text:", text);
+    
+    if (!text.trim()) {
+      statusText.textContent = "❌ Please write a report first";
+      return;
+    }
+
+    if (isSending) {
+      statusText.textContent = "⏳ Sending, please wait...";
+      return;
+    }
+
+    let hajjId = currentHajjId;
+    if (!hajjId) {
+      const stored = localStorage.getItem("hajj_id");
+      if (stored && stored !== 'null' && stored !== 'undefined') {
+        hajjId = stored;
+        currentHajjId = hajjId;
+      } else {
+        statusText.textContent = "❌ Please login first";
+        window.location.href = "/Welcome.html";
+        return;
+      }
+    }
+
+    if (!currentScreenNumber) {
+      await getNextScreenNumber();
+    }
+
+    isSending = true;
+    sendBtn.disabled = true;
+    sendBtn.textContent = "Sending...";
+    
+    try {
+      statusText.textContent = "🔍 Analyzing report...";
+      let aiData;
+
+      try {
+        const aiResponse = await fetch("http://127.0.0.1:5000/predict-text", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            text: text,
+            hajj_id: hajjId,
+            screen_number: currentScreenNumber
+          })
+        });
+
+        aiData = await aiResponse.json();
+        console.log("🤖 AI Response:", aiData);
+
+        if (aiData.error) {
+          throw new Error(aiData.error);
+        }
+      } catch (aiError) {
+        console.warn("⚠️ AI unavailable, using fallback category:", aiError);
+        aiData = { predicted_label_en: "security" };
+      }
+
+      updateUIFromPrediction(aiData);
+      
+      statusText.textContent = "💾 Saving report...";
+      const saveResponse = await fetch("/api/reports", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          screen_number: currentScreenNumber,
+          hajj_id: hajjId,
+          text: text,
+          category: aiData.predicted_label_en,
+          language: "en"
+        })
+      });
+      
+      const saveData = await saveResponse.json();
+      console.log("💾 Save response:", saveData);
+      
+      if (saveData.success) {
+        statusText.textContent = "🎉 Report sent successfully!";
+        successPopup.classList.add("show");
+      } else {
+        throw new Error(saveData.error || "Save failed");
+      }
+      
+    } catch (error) {
+      console.error("❌ Error:", error);
+      statusText.textContent = "❌ Failed: " + error.message;
+    } finally {
+      isSending = false;
+      sendBtn.disabled = false;
+      sendBtn.textContent = "Send Report";
+    }
+  }
+
+  async function sendAudioToBackend(audioBlob) {
+    let hajjId = currentHajjId;
+    if (!hajjId) {
+      const stored = localStorage.getItem("hajj_id");
+      if (stored && stored !== 'null' && stored !== 'undefined') {
+        hajjId = stored;
+        currentHajjId = hajjId;
+      } else {
+        statusText.textContent = "❌ Please login first";
+        window.location.href = "/Welcome.html";
+        return;
+      }
+    }
+
+    if (!currentScreenNumber) {
+      await getNextScreenNumber();
+    }
+
+    try {
+      statusText.textContent = "🎤 Processing audio...";
+      const formData = new FormData();
+      formData.append("audio", audioBlob, "report.webm");
+      formData.append("language", "en");
+      formData.append("hajj_id", hajjId);
+      formData.append("screen_number", currentScreenNumber);
+
+      const response = await fetch("http://127.0.0.1:5000/predict-audio", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await response.json();
+      console.log("🎤 Audio Response:", data);
+      
+      if (data.error) {
+        statusText.textContent = data.error;
+        return;
+      }
+
+      if (data.input_text) {
+        reportText.value = data.input_text;
+      }
+      
+      updateUIFromPrediction(data);
+      statusText.textContent = "✅ Audio analyzed, you can now send";
+      
+    } catch (error) {
+      console.error(error);
+      statusText.textContent = "❌ Audio processing failed";
+    }
+  }
+
+  recordBtn.addEventListener("click", async () => {
+    if (!isRecording) {
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        audioChunks = [];
+        mediaRecorder = new MediaRecorder(stream);
+
+        mediaRecorder.ondataavailable = (event) => {
+          if (event.data.size > 0) audioChunks.push(event.data);
+        };
+
+        mediaRecorder.onstop = async () => {
+          const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
+          if (stream) stream.getTracks().forEach(track => track.stop());
+          await sendAudioToBackend(audioBlob);
+        };
+
+        mediaRecorder.start();
+        isRecording = true;
+        recordBtn.textContent = "Stop Recording";
+        statusText.textContent = "🎤 Recording...";
+      } catch (error) {
+        console.error(error);
+        statusText.textContent = "❌ Microphone access denied";
+      }
+    } else {
+      mediaRecorder.stop();
+      isRecording = false;
+      recordBtn.textContent = "Start Speaking";
+      statusText.textContent = "⏳ Processing audio...";
+    }
+  });
+
+  sendBtn.addEventListener("click", processAndSendReport);
+
+  closePopupBtn.addEventListener("click", () => {
+    successPopup.classList.remove("show");
+    reportText.value = "";
+    reportTypeBox.classList.remove("show");
+    statusText.textContent = "";
+  });
+
+  window.addEventListener('DOMContentLoaded', async () => {
+    await getNextScreenNumber();
+    
+    const storedHajj = localStorage.getItem("hajj_id");
+    if (storedHajj && storedHajj !== 'null' && storedHajj !== 'undefined') {
+      currentHajjId = storedHajj;
+      console.log("👤 Current Hajj ID:", currentHajjId);
+    } else {
+      console.warn("⚠️ No Hajj ID found. Redirecting to login...");
+      window.location.href = "/Welcome.html";
+    }
+  });
+</script>
+</body>
+</html>
